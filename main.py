@@ -1,11 +1,14 @@
 import requests
+import lxml
 from bs4 import BeautifulSoup
 
-def get_html(url):
+
+def get_html(url: str) -> str:
     result = requests.get(url)
     return result.text
 
-def get_data(html):
+
+def get_data(html: str) -> None:
     soup = BeautifulSoup(html, 'lxml')
     posts_count = soup.find_all('article', {'class': 'tm-articles-list__item'}).__len__()
 
@@ -24,10 +27,13 @@ def get_data(html):
         print(post_time)
         print(post_link)
 
+
 def main():
     html = get_html('https://habr.com/ru/flows/develop/top/weekly/')
     get_data(html)
 
+
 if __name__ == '__main__':
     main()
+
 
