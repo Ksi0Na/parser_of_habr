@@ -124,4 +124,3 @@ class RabbitMQ:
         await self.channel.bind_queue(queue_name=self.queue_name,
                                       exchange_name=self.exchange_name,
                                       routing_key='')
-
