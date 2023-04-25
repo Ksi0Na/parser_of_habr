@@ -142,56 +142,6 @@ class RabbitMQ:
                                    routing_key=self.queue_name,
                                    body=task_json)
 
-    #     # Установка параметра prefetch_count
-    #     self.channel.basic_qos(prefetch_count=1)
-    #
-    #     # Подписка на очередь с флагом Ack
-    #     self.channel.basic_consume(queue=self.queue_name, on_message_callback=self.callback)
-    #
-    #
-    # # Обработчик сообщений
-    # def callback(self, method, body):
-    #     print("Received %r" % body)
-    #     self.channel.basic_ack(delivery_tag=method.delivery_tag)  # Подтверждение доставки сообщения
-    #
-    # def execute_function_from_queue(self):
-    #     method_frame, header_frame, body = self.channel.basic_get(queue=self.queue_name, auto_ack=False)
-    #     if method_frame:
-    #         task = json.loads(body.decode('utf-8'))
-    #         # обязательно подтвердить получение сообщения, используя метод basic_ack
-    #         self.callback(method_frame, body)
-    #         return task
-    #     else:
-    #         return None
-    #
-    #     task_name = task['function_name']
-    #     task_args = task['args']
-    #     task_kwargs = task['kwargs']
-    #
-    #     # Извлекаем имя класса и метода
-    #     class_name, method_name = task_name.split('.')
-    #
-    #     # Получаем класс по имени
-    #     cls = globals().get(class_name)
-    #     if cls is None:
-    #         print(f"Error: Can't find class {class_name}")
-    #         return None
-    #
-    #     # Получаем метод по имени из класса
-    #     func = getattr(cls, method_name, None)
-    #     if func is None:
-    #         print(f"Error: Can't find method {method_name} in class {class_name}")
-    #         return None
-    #
-    #     # Если метод является методом экземпляра класса, создаем экземпляр класса
-    #     # и передаем его первым аргументом
-    #     if inspect.ismethod(func) and not inspect.isclass(cls):
-    #         instance = cls()
-    #         return instance, func, task_args, task_kwargs, method_frame.delivery_tag
-    #     else:
-    #         return None, func, task_args, task_kwargs, method_frame.delivery_tag
-
-
     def execute_function_from_queue(self):
         try:
             method_frame, frame, body = self.channel.basic_get(self.queue_name, auto_ack=False)
